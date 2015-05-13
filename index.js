@@ -5,7 +5,7 @@ var formidable = require('formidable');
 var _ = require('underscore');
 
 var app = express();
-var token = process.env.FILES_API_TOKEN;
+var token = process.env.TOKEN;
 var uploadDir = process.env.UPLOAD_DIR;
 
 // Constants

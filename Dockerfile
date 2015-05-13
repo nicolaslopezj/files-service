@@ -1,10 +1,15 @@
 FROM node:0.10-onbuild
 
-# Bundle app source
+RUN mkdir /uploads
+
 COPY . /src
-# Install app dependencies
+
 RUN cd /src; npm install
 
 EXPOSE  8080
+
+VOLUME /uploads
+
+ENV UPLOAD_DIR /uploads
 
 CMD ["node", "/src/index.js"]
