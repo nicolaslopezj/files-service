@@ -1,0 +1,13 @@
+{
+  "name": "docker-files-service",
+  "private": true,
+  "version": "0.0.1",
+  "description": "Node.js uploader made for docker",
+  "author": "Nicolás López <nicolaslopezj@me.com>",
+  "dependencies": {
+    "express": "3.2.4",
+    "generate-key": "0.0.6",
+    "underscore": "1.8.3",
+    "formidable": "1.0.17"
+  }
+}
