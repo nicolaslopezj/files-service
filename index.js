@@ -6,7 +6,7 @@ var _ = require('underscore');
 
 var app = express();
 var token = process.env.TOKEN;
-var uploadDir = process.env.UPLOAD_DIR;
+var uploadDir = process.env.UPLOAD_DIR; // without ending "/"
 
 // Constants
 var PORT = 8080;
@@ -52,11 +52,23 @@ app.post('/files', function (req, res) {
 
   var requestKey = req.query.key;
 
-  if (!_.contains(keys, requestKey)) {
-    console.log('Unauthorized client tried to upload a file [' + requestKey + ']');
-    var json = JSON.stringify({ error: 'invalid-token', description: 'The token is invalid' }, null, 2);
-    res.status(401).send(json);
-    return;
+  if (req.headers.authorization) {
+    // Auth with token
+    var clientToken = req.headers.authorization.replace('Bearer ', '');
+    if (token !== clientToken) {
+      console.log('Unauthorized client tried to upload a file [' + clientToken + ']');
+      var json = JSON.stringify({ error: 'invalid-token', description: 'The token is invalid' }, null, 2);
+      res.status(401).send(json);
+      return;
+    }
+  } else {
+    // Auth with request key
+    if (!_.contains(keys, requestKey)) {
+      console.log('Unauthorized client tried to upload a file [' + requestKey + ']');
+      var json = JSON.stringify({ error: 'invalid-token', description: 'The token is invalid' }, null, 2);
+      res.status(401).send(json);
+      return;
+    }
   } 
 
   var form = new formidable.IncomingForm();
